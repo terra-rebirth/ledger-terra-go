@@ -14,7 +14,7 @@
 *  limitations under the License.
 ********************************************************************************/
 
-package ledger_cosmos_go
+package ledger_terra_go
 
 import (
 	"fmt"
@@ -164,18 +164,13 @@ func (ledger *LedgerCosmos) GetBip32bytes(bip32Path []uint32, hardenCount int) (
 	var pathBytes []byte
 	var err error
 
-	switch ledger.version.Major {
-	case 1:
-		pathBytes, err = GetBip32bytesv1(bip32Path, 3)
-		if err != nil {
-			return nil, err
-		}
-	case 2:
+	if (ledger.appName == "Terra" && ledger.version.Major == 1) ||
+		(ledger.appName == "Cosmos" && ledger.version.Major == 2) {
 		pathBytes, err = GetBip32bytesv2(bip32Path, 3)
 		if err != nil {
 			return nil, err
 		}
-	default:
+	} else {
 		return nil, fmt.Errorf("App version is not supported")
 	}
 

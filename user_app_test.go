@@ -14,7 +14,7 @@
 *  limitations under the License.
 ********************************************************************************/
 
-package ledger_cosmos_go
+package ledger_terra_go
 
 import (
 	"crypto/sha256"
@@ -79,7 +79,7 @@ func Test_UserGetPublicKey(t *testing.T) {
 
 	userApp.api.Logging = true
 
-	path := []uint32{44, 118, 5, 0, 21}
+	path := []uint32{44, 330, 5, 0, 21}
 
 	pubKey, err := userApp.GetPublicKeySECP256K1(path)
 	if err != nil {
@@ -91,7 +91,7 @@ func Test_UserGetPublicKey(t *testing.T) {
 	fmt.Printf("PUBLIC KEY: %x\n", pubKey)
 
 	assert.Equal(t,
-		"03cb5a33c61595206294140c45efa8a817533e31aa05ea18343033a0732a677005",
+		"038c2eead695e4f8e9318b8cbb6dc8b7321cbee92bb88230a3e3c3d91b8de859c0",
 		hex.EncodeToString(pubKey),
 		"Unexpected pubkey")
 }
@@ -105,8 +105,8 @@ func Test_GetAddressPubKeySECP256K1_Zero(t *testing.T) {
 
 	userApp.api.Logging = true
 
-	hrp := "cosmos"
-	path := []uint32{44, 118, 0, 0, 0}
+	hrp := "terra"
+	path := []uint32{44, 330, 0, 0, 0}
 
 	pubKey, addr, err := userApp.GetAddressPubKeySECP256K1(path, hrp)
 	if err != nil {
@@ -118,8 +118,8 @@ func Test_GetAddressPubKeySECP256K1_Zero(t *testing.T) {
 
 	assert.Equal(t, 33, len(pubKey), "Public key has wrong length: %x, expected length: %x\n", pubKey, 65)
 
-	assert.Equal(t, "034fef9cd7c4c63588d3b03feb5281b9d232cba34d6f3d71aee59211ffbfe1fe87", hex.EncodeToString(pubKey), "Unexpected pubkey")
-	assert.Equal(t, "cosmos1w34k53py5v5xyluazqpq65agyajavep2rflq6h", addr, "Unexpected addr")
+	assert.Equal(t, "03028f0d5a9fd41600191cdefdea05e77a68dfbce286241c0190805b9346667d07", hex.EncodeToString(pubKey), "Unexpected pubkey")
+	assert.Equal(t, "terra1uayrf8zh44620zyjd052gdcjcrvjpgkkg78fux", addr, "Unexpected addr")
 }
 
 func Test_GetAddressPubKeySECP256K1(t *testing.T) {
@@ -131,8 +131,8 @@ func Test_GetAddressPubKeySECP256K1(t *testing.T) {
 
 	userApp.api.Logging = true
 
-	hrp := "cosmos"
-	path := []uint32{44, 118, 5, 0, 21}
+	hrp := "terra"
+	path := []uint32{44, 330, 5, 0, 21}
 
 	pubKey, addr, err := userApp.GetAddressPubKeySECP256K1(path, hrp)
 	if err != nil {
@@ -144,8 +144,8 @@ func Test_GetAddressPubKeySECP256K1(t *testing.T) {
 
 	assert.Equal(t, 33, len(pubKey), "Public key has wrong length: %x, expected length: %x\n", pubKey, 65)
 
-	assert.Equal(t, "03cb5a33c61595206294140c45efa8a817533e31aa05ea18343033a0732a677005", hex.EncodeToString(pubKey), "Unexpected pubkey")
-	assert.Equal(t, "cosmos162zm3k8mc685592d7vej2lxrp58mgmkcec76d6", addr, "Unexpected addr")
+	assert.Equal(t, "038c2eead695e4f8e9318b8cbb6dc8b7321cbee92bb88230a3e3c3d91b8de859c0", hex.EncodeToString(pubKey), "Unexpected pubkey")
+	assert.Equal(t, "terra1ql0ggyut5pkytffp94q3xv5zzwezq2cwv5qxc0", addr, "Unexpected addr")
 }
 
 func Test_UserPK_HDPaths(t *testing.T) {
@@ -157,19 +157,19 @@ func Test_UserPK_HDPaths(t *testing.T) {
 
 	userApp.api.Logging = true
 
-	path := []uint32{44, 118, 0, 0, 0}
+	path := []uint32{44, 330, 0, 0, 0}
 
 	expected := []string{
-		"034fef9cd7c4c63588d3b03feb5281b9d232cba34d6f3d71aee59211ffbfe1fe87",
-		"0260d0487a3dfce9228eee2d0d83a40f6131f551526c8e52066fe7fe1e4a509666",
-		"03a2670393d02b162d0ed06a08041e80d86be36c0564335254df7462447eb69ab3",
-		"033222fc61795077791665544a90740e8ead638a391a3b8f9261f4a226b396c042",
-		"03f577473348d7b01e7af2f245e36b98d181bc935ec8b552cde5932b646dc7be04",
-		"0222b1a5486be0a2d5f3c5866be46e05d1bde8cda5ea1c4c77a9bc48d2fa2753bc",
-		"0377a1c826d3a03ca4ee94fc4dea6bccb2bac5f2ac0419a128c29f8e88f1ff295a",
-		"031b75c84453935ab76f8c8d0b6566c3fcc101cc5c59d7000bfc9101961e9308d9",
-		"038905a42433b1d677cc8afd36861430b9a8529171b0616f733659f131c3f80221",
-		"038be7f348902d8c20bc88d32294f4f3b819284548122229decd1adf1a7eb0848b",
+		"03028f0d5a9fd41600191cdefdea05e77a68dfbce286241c0190805b9346667d07",
+		"025488611a1e1127703e6c2a0dcc27063035d16536da11feae655ac58fd3f46eb4",
+		"02af5763cc2bb3e83ec410bcabb57d622b1eacd4fc4aa180fabfb3c879b05e4828",
+		"03eb7aed84a5c31264cf19e8c03b487c1485824415def544f0c48be815f98c4af4",
+		"020f80062dc2696157ff04b66772478ed01141c369dc2d53fafbb2468dffae64fa",
+		"02792cddcb672fa88c8bd13aff708eb6552b2dd4a9d347a844f1d591c202f58c1e",
+		"024dbb0781c9b46e073dd8816280942b6497cfbbb486882180be7e6fbd48def104",
+		"0349938f2c1a5468b1137bf70e73cdc4820b22e9dd2a10750026139075e2140aec",
+		"029fc277428deeae4afbe18aa852c0acd4ef4d9115bd0ba3ae352e72dcb4474650",
+		"03e07031287989c036e1ad68811981ef3bdb026241e5ff0e21c0d043f3c4790ed1",
 	}
 
 	for i := uint32(0); i < 10; i++ {
@@ -190,7 +190,7 @@ func Test_UserPK_HDPaths(t *testing.T) {
 			t,
 			expected[i],
 			hex.EncodeToString(pubKey),
-			"Public key 44'/118'/0'/0/%d does not match\n", i)
+			"Public key 44'/330'/0'/0/%d does not match\n", i)
 
 		_, err = btcec.ParsePubKey(pubKey[:], btcec.S256())
 		require.Nil(t, err, "Error parsing public key err: %s\n", err)
