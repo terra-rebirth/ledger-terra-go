@@ -14,23 +14,24 @@
 *  limitations under the License.
 ********************************************************************************/
 
-package ledger_cosmos_go
+package ledger_terra_go
 
 import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"strings"
+	"testing"
+
 	"github.com/btcsuite/btcd/btcec"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"strings"
-	"testing"
 )
 
 // Ledger Test Mnemonic: equip will roof matter pink blind book anxiety banner elbow sun young
 
 func Test_UserFindLedger(t *testing.T) {
-	userApp, err := FindLedgerCosmosUserApp()
+	userApp, err := FindLedgerTerraUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -40,7 +41,7 @@ func Test_UserFindLedger(t *testing.T) {
 }
 
 func Test_UserGetVersion(t *testing.T) {
-	userApp, err := FindLedgerCosmosUserApp()
+	userApp, err := FindLedgerTerraUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -48,18 +49,29 @@ func Test_UserGetVersion(t *testing.T) {
 
 	userApp.api.Logging = true
 
-	version, err := userApp.GetVersion()
+	err = userApp.LoadVersion()
 	require.Nil(t, err, "Detected error")
-	fmt.Println(version)
 
-	assert.Equal(t, uint8(0x0), version.AppMode, "TESTING MODE ENABLED!!")
-	assert.Equal(t, uint8(0x2), version.Major, "Wrong Major version")
-	assert.Equal(t, uint8(0x1), version.Minor, "Wrong Minor version")
-	assert.Equal(t, uint8(0x0), version.Patch, "Wrong Patch version")
+	version := userApp.version
+
+	if userApp.appName == "Terra" {
+		assert.Equal(t, uint8(0x0), version.AppMode, "TESTING MODE ENABLED!!")
+		assert.Equal(t, uint8(0x1), version.Major, "Wrong Major version")
+		assert.Equal(t, uint8(0x0), version.Minor, "Wrong Minor version")
+		assert.Equal(t, uint8(0x0), version.Patch, "Wrong Patch version")
+	} else if userApp.appName == "Cosmos" {
+		assert.Equal(t, uint8(0x0), version.AppMode, "TESTING MODE ENABLED!!")
+		assert.Equal(t, uint8(0x2), version.Major, "Wrong Major version")
+		assert.Equal(t, uint8(0xC), version.Minor, "Wrong Minor version")
+		assert.Equal(t, uint8(0x0), version.Patch, "Wrong Patch version")
+	} else {
+		assert.Fail(t, "MUST NOT ENTER HERE")
+	}
+
 }
 
 func Test_UserGetPublicKey(t *testing.T) {
-	userApp, err := FindLedgerCosmosUserApp()
+	userApp, err := FindLedgerTerraUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -85,7 +97,7 @@ func Test_UserGetPublicKey(t *testing.T) {
 }
 
 func Test_GetAddressPubKeySECP256K1_Zero(t *testing.T) {
-	userApp, err := FindLedgerCosmosUserApp()
+	userApp, err := FindLedgerTerraUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -111,7 +123,7 @@ func Test_GetAddressPubKeySECP256K1_Zero(t *testing.T) {
 }
 
 func Test_GetAddressPubKeySECP256K1(t *testing.T) {
-	userApp, err := FindLedgerCosmosUserApp()
+	userApp, err := FindLedgerTerraUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -137,7 +149,7 @@ func Test_GetAddressPubKeySECP256K1(t *testing.T) {
 }
 
 func Test_UserPK_HDPaths(t *testing.T) {
-	userApp, err := FindLedgerCosmosUserApp()
+	userApp, err := FindLedgerTerraUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -206,7 +218,7 @@ func getDummyTx() []byte {
 }
 
 func Test_UserSign(t *testing.T) {
-	userApp, err := FindLedgerCosmosUserApp()
+	userApp, err := FindLedgerTerraUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -254,7 +266,7 @@ func Test_UserSign(t *testing.T) {
 }
 
 func Test_UserSign_Fails(t *testing.T) {
-	userApp, err := FindLedgerCosmosUserApp()
+	userApp, err := FindLedgerTerraUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -273,6 +285,6 @@ func Test_UserSign_Fails(t *testing.T) {
 	errMessage := err.Error()
 
 	if errMessage != "Invalid character in JSON string" && errMessage != "Unexpected characters" {
-		assert.Fail(t, "Unexpected error message returned: " + errMessage )
+		assert.Fail(t, "Unexpected error message returned: "+errMessage)
 	}
 }

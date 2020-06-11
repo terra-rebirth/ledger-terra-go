@@ -6,7 +6,7 @@ branches:
   only:
     - master
 
-clone_folder: c:\ledger-cosmos-go
+clone_folder: c:\ledger-terra-go
 
 environment:
   GOPATH: c:\gopath

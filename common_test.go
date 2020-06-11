@@ -14,12 +14,13 @@
 *  limitations under the License.
 ********************************************************************************/
 
-package ledger_cosmos_go
+package ledger_terra_go
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_PrintVersion(t *testing.T) {
@@ -34,7 +35,7 @@ func Test_PathGeneration0(t *testing.T) {
 	pathBytes, err := GetBip32bytesv1(bip32Path, 0)
 
 	if err != nil {
-		t.Fatalf( "Detected error, err: %s\n", err.Error())
+		t.Fatalf("Detected error, err: %s\n", err.Error())
 	}
 
 	fmt.Printf("Path: %x\n", pathBytes)
@@ -106,7 +107,7 @@ func Test_PathGeneration0v2(t *testing.T) {
 	pathBytes, err := GetBip32bytesv2(bip32Path, 0)
 
 	if err != nil {
-		t.Fatalf( "Detected error, err: %s\n", err.Error())
+		t.Fatalf("Detected error, err: %s\n", err.Error())
 	}
 
 	fmt.Printf("Path: %x\n", pathBytes)

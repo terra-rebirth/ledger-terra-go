@@ -1,4 +1,4 @@
-module github.com/cosmos/ledger-cosmos-go
+module github.com/terra-project/ledger-terra-go
 
 go 1.12
 

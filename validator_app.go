@@ -14,13 +14,13 @@
 *  limitations under the License.
 ********************************************************************************/
 
-package ledger_cosmos_go
+package ledger_terra_go
 
 import (
 	"fmt"
 	"math"
 
-	"github.com/cosmos/ledger-go"
+	ledger_go "github.com/cosmos/ledger-go"
 )
 
 const (
@@ -41,10 +41,10 @@ type LedgerTendermintValidator struct {
 
 // RequiredCosmosUserAppVersion indicates the minimum required version of the Tendermint app
 func RequiredTendermintValidatorAppVersion() VersionInfo {
-	return VersionInfo{0, 0, 5, 0,}
+	return VersionInfo{0, 0, 5, 0}
 }
 
-// FindLedgerCosmosValidatorApp finds a Cosmos validator app running in a ledger device
+// FindLedgerTerraValidatorApp finds a Cosmos validator app running in a ledger device
 func FindLedgerTendermintValidatorApp() (*LedgerTendermintValidator, error) {
 	ledgerAPI, err := ledger_go.FindLedger()
 
@@ -66,7 +66,7 @@ func FindLedgerTendermintValidatorApp() (*LedgerTendermintValidator, error) {
 
 	req := RequiredTendermintValidatorAppVersion()
 	err = CheckVersion(*appVersion, req)
-	if err !=nil {
+	if err != nil {
 		return nil, err
 	}
 

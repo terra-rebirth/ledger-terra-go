@@ -14,18 +14,19 @@
 *  limitations under the License.
 ********************************************************************************/
 
-package ledger_cosmos_go
+package ledger_terra_go
 
 import (
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func Test_ValGetVersion(t *testing.T) {
 	validatorApp, err := FindLedgerTendermintValidatorApp()
 	if err != nil {
-		t.Fatalf( err.Error())
+		t.Fatalf(err.Error())
 	}
 	defer validatorApp.Close()
 
@@ -42,7 +43,7 @@ func Test_ValGetVersion(t *testing.T) {
 func Test_ValGetPublicKey(t *testing.T) {
 	validatorApp, err := FindLedgerTendermintValidatorApp()
 	if err != nil {
-		t.Fatalf( err.Error())
+		t.Fatalf(err.Error())
 	}
 	defer validatorApp.Close()
 
