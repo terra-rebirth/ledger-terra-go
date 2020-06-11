@@ -14,7 +14,7 @@
 *  limitations under the License.
 ********************************************************************************/
 
-package ledger_terra_go
+package ledger_cosmos_go
 
 import (
 	"crypto/sha256"
@@ -31,7 +31,7 @@ import (
 // Ledger Test Mnemonic: equip will roof matter pink blind book anxiety banner elbow sun young
 
 func Test_UserFindLedger(t *testing.T) {
-	userApp, err := FindLedgerTerraUserApp()
+	userApp, err := FindLedgerCosmosUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -41,7 +41,7 @@ func Test_UserFindLedger(t *testing.T) {
 }
 
 func Test_UserGetVersion(t *testing.T) {
-	userApp, err := FindLedgerTerraUserApp()
+	userApp, err := FindLedgerCosmosUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -71,7 +71,7 @@ func Test_UserGetVersion(t *testing.T) {
 }
 
 func Test_UserGetPublicKey(t *testing.T) {
-	userApp, err := FindLedgerTerraUserApp()
+	userApp, err := FindLedgerCosmosUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -97,7 +97,7 @@ func Test_UserGetPublicKey(t *testing.T) {
 }
 
 func Test_GetAddressPubKeySECP256K1_Zero(t *testing.T) {
-	userApp, err := FindLedgerTerraUserApp()
+	userApp, err := FindLedgerCosmosUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -123,7 +123,7 @@ func Test_GetAddressPubKeySECP256K1_Zero(t *testing.T) {
 }
 
 func Test_GetAddressPubKeySECP256K1(t *testing.T) {
-	userApp, err := FindLedgerTerraUserApp()
+	userApp, err := FindLedgerCosmosUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -149,7 +149,7 @@ func Test_GetAddressPubKeySECP256K1(t *testing.T) {
 }
 
 func Test_UserPK_HDPaths(t *testing.T) {
-	userApp, err := FindLedgerTerraUserApp()
+	userApp, err := FindLedgerCosmosUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -218,7 +218,7 @@ func getDummyTx() []byte {
 }
 
 func Test_UserSign(t *testing.T) {
-	userApp, err := FindLedgerTerraUserApp()
+	userApp, err := FindLedgerCosmosUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -266,7 +266,7 @@ func Test_UserSign(t *testing.T) {
 }
 
 func Test_UserSign_Fails(t *testing.T) {
-	userApp, err := FindLedgerTerraUserApp()
+	userApp, err := FindLedgerCosmosUserApp()
 	if err != nil {
 		t.Fatalf(err.Error())
 	}

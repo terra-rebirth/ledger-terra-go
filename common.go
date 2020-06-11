@@ -14,7 +14,7 @@
 *  limitations under the License.
 ********************************************************************************/
 
-package ledger_terra_go
+package ledger_cosmos_go
 
 import (
 	"encoding/binary"

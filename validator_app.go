@@ -14,7 +14,7 @@
 *  limitations under the License.
 ********************************************************************************/
 
-package ledger_terra_go
+package ledger_cosmos_go
 
 import (
 	"fmt"
@@ -44,7 +44,7 @@ func RequiredTendermintValidatorAppVersion() VersionInfo {
 	return VersionInfo{0, 0, 5, 0}
 }
 
-// FindLedgerTerraValidatorApp finds a Cosmos validator app running in a ledger device
+// FindLedgerCosmosValidatorApp finds a Cosmos validator app running in a ledger device
 func FindLedgerTendermintValidatorApp() (*LedgerTendermintValidator, error) {
 	ledgerAPI, err := ledger_go.FindLedger()
 

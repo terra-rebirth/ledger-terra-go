@@ -14,7 +14,7 @@
 *  limitations under the License.
 ********************************************************************************/
 
-package ledger_terra_go
+package ledger_cosmos_go
 
 import (
 	"fmt"
@@ -33,22 +33,22 @@ const (
 	userMessageChunkSize = 250
 )
 
-// LedgerTerra represents a connection to the app in a Ledger Nano S device
-type LedgerTerra struct {
+// LedgerCosmos represents a connection to the app in a Ledger Nano S device
+type LedgerCosmos struct {
 	appName string
 	api     *ledger_go.Ledger
 	version VersionInfo
 }
 
-// FindLedgerTerraUserApp finds a user app running in a ledger device
-func FindLedgerTerraUserApp() (*LedgerTerra, error) {
+// FindLedgerCosmosUserApp finds a user app running in a ledger device
+func FindLedgerCosmosUserApp() (*LedgerCosmos, error) {
 	ledgerAPI, err := ledger_go.FindLedger()
 
 	if err != nil {
 		return nil, err
 	}
 
-	app := LedgerTerra{"", ledgerAPI, VersionInfo{}}
+	app := LedgerCosmos{"", ledgerAPI, VersionInfo{}}
 	err = app.LoadAppName()
 
 	if err != nil {
@@ -78,12 +78,12 @@ func FindLedgerTerraUserApp() (*LedgerTerra, error) {
 }
 
 // Close closes a connection with the user app
-func (ledger *LedgerTerra) Close() error {
+func (ledger *LedgerCosmos) Close() error {
 	return ledger.api.Close()
 }
 
 // VersionIsSupported returns true if the App version is supported by this library
-func (ledger *LedgerTerra) CheckVersion() error {
+func (ledger *LedgerCosmos) CheckVersion() error {
 	ver := ledger.version
 	appName := ledger.appName
 	if appName == "Terra" {
@@ -96,7 +96,7 @@ func (ledger *LedgerTerra) CheckVersion() error {
 }
 
 // LoadVersion returns the current version of the user app
-func (ledger *LedgerTerra) LoadVersion() error {
+func (ledger *LedgerCosmos) LoadVersion() error {
 	message := []byte{userCLA, userINSGetVersion, 0, 0, 0}
 	response, err := ledger.api.Exchange(message)
 
@@ -118,7 +118,7 @@ func (ledger *LedgerTerra) LoadVersion() error {
 	return nil
 }
 
-func (ledger *LedgerTerra) LoadAppName() error {
+func (ledger *LedgerCosmos) LoadAppName() error {
 	message := []byte{0xb0, 0x01, 0, 0, 0}
 	response, err := ledger.api.Exchange(message)
 	if err != nil {
@@ -138,13 +138,13 @@ func (ledger *LedgerTerra) LoadAppName() error {
 
 // SignSECP256K1 signs a transaction using user app
 // this command requires user confirmation in the device
-func (ledger *LedgerTerra) SignSECP256K1(bip32Path []uint32, transaction []byte) ([]byte, error) {
+func (ledger *LedgerCosmos) SignSECP256K1(bip32Path []uint32, transaction []byte) ([]byte, error) {
 	return ledger.sign(bip32Path, transaction)
 }
 
 // GetPublicKeySECP256K1 retrieves the public key for the corresponding bip32 derivation path (compressed)
 // this command DOES NOT require user confirmation in the device
-func (ledger *LedgerTerra) GetPublicKeySECP256K1(bip32Path []uint32) ([]byte, error) {
+func (ledger *LedgerCosmos) GetPublicKeySECP256K1(bip32Path []uint32) ([]byte, error) {
 	pubkey, _, err := ledger.getAddressPubKeySECP256K1(bip32Path, "terra", false)
 	return pubkey, err
 }
@@ -156,11 +156,11 @@ func validHRPByte(b byte) bool {
 
 // GetAddressPubKeySECP256K1 returns the pubkey (compressed) and address (bech(
 // this command requires user confirmation in the device
-func (ledger *LedgerTerra) GetAddressPubKeySECP256K1(bip32Path []uint32, hrp string) (pubkey []byte, addr string, err error) {
+func (ledger *LedgerCosmos) GetAddressPubKeySECP256K1(bip32Path []uint32, hrp string) (pubkey []byte, addr string, err error) {
 	return ledger.getAddressPubKeySECP256K1(bip32Path, hrp, true)
 }
 
-func (ledger *LedgerTerra) GetBip32bytes(bip32Path []uint32, hardenCount int) ([]byte, error) {
+func (ledger *LedgerCosmos) GetBip32bytes(bip32Path []uint32, hardenCount int) ([]byte, error) {
 	var pathBytes []byte
 	var err error
 
@@ -182,7 +182,7 @@ func (ledger *LedgerTerra) GetBip32bytes(bip32Path []uint32, hardenCount int) ([
 	return pathBytes, nil
 }
 
-func (ledger *LedgerTerra) sign(bip32Path []uint32, transaction []byte) ([]byte, error) {
+func (ledger *LedgerCosmos) sign(bip32Path []uint32, transaction []byte) ([]byte, error) {
 	var packetIndex byte = 1
 	var packetCount = 1 + byte(math.Ceil(float64(len(transaction))/float64(userMessageChunkSize)))
 
@@ -247,7 +247,7 @@ func (ledger *LedgerTerra) sign(bip32Path []uint32, transaction []byte) ([]byte,
 
 // GetAddressPubKeySECP256K1 returns the pubkey (compressed) and address (bech(
 // this command requires user confirmation in the device
-func (ledger *LedgerTerra) getAddressPubKeySECP256K1(bip32Path []uint32, hrp string, requireConfirmation bool) (pubkey []byte, addr string, err error) {
+func (ledger *LedgerCosmos) getAddressPubKeySECP256K1(bip32Path []uint32, hrp string, requireConfirmation bool) (pubkey []byte, addr string, err error) {
 	if len(hrp) > 83 {
 		return nil, "", fmt.Errorf("hrp len should be <10")
 	}
