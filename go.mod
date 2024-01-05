@@ -1,4 +1,4 @@
-module github.com/terra-money/ledger-terra-go
+module github.com/terra-rebirth/ledger-terra-go
 
 go 1.12
 
